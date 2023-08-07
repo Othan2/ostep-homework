@@ -1,0 +1,30 @@
+1. value of x in child is value initially set in parent.
+when one of the processes changes the value of x, that
+change is not reflected in the other process (because 
+they are separate processes and don't share memory).
+
+2. they can both access the file descriptor. I'd guess
+that writes from each process would be interleaved if
+they try to write to the file concurrently.
+
+3. you can ensure that the parent/child returns first
+either by using signals or a shared file.
+
+4. the different variants of exec allow you to
+customize how the command that you want to run is
+resolved (by customizing path), and also lets you set
+up the environment of the new process image how you
+want.
+
+5. if I use wait in the child, it waits for the parent
+process to finish... how does it know the parent
+process exists? "man 2 wait": waits for termination of
+a child process or a signal is received. also looks at
+the process group of the caller 
+
+6. I combined the files for 5 and 6. waitpid lets you
+wait on a specific process and also test the manner of
+exit of the process so that you can gracefully handle
+successess or failures.
+
+7. no output gets printed

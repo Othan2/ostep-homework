@@ -1,0 +1,43 @@
+pg. 35
+
+1. we expect the utilization to be 100%, we know this
+because there is a 100% chance that a cpu instruction
+will be issued instead of IO for each of the processes.
+
+2. we expect it will take 9 cycles because the IO is not
+initiated until after the first process completes. P1
+takes 4 cycles, IO takes 5. (wrong - forgot to account
+for IO instructions themselves taking 1 cycle each. 
+answer is 11)
+
+3. switching the order does matter becase we can run cpu
+cycles for P1 while the IO for P2 is taking place. I'd
+expect this to take 6 cycles. (it took 7 - did not 
+account for one of the IO cycles)
+
+4. with switch on end enabled, everything has to happen
+synchronously and order should not matter. I expect 11
+cycles.
+
+5. we should see another 7 cycles here because we switch
+when P1 initiates IO.
+
+6. assuming the first process is prioritized over the
+third and fourth, I'd expect the cpu to be fully
+utilized as all of the other processes should run for 
+the length of one IO. otherwise:
+- 1 (first IO) c1
+- 2 c2
+- 3 c7
+- 1 (second IO) c12
+- 4 c13
+- 1 (third IO) c18
+(end on c25).
+My assumptions were wrong - the IO initiating process had
+the lowest priority, so run order was: 1,2,3,4,1,1
+
+7. With IO run immediate, the cpu should be fully
+utilized, taking a total time of 21 cycles. I think using
+the heuristic that a process that ran IO is likely to run
+IO again is an interesting idea and could potentially
+increase utilization.
